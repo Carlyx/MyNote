@@ -8,7 +8,6 @@ public class LinkTextView extends View {
 
 	public LinkTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 
 }

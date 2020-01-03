@@ -15,6 +15,7 @@ import com.brcorner.dnote.android.R;
 import com.brcorner.dnote.android.data.ConstantData;
 import com.brcorner.dnote.android.model.NoteModel;
 import com.brcorner.drag_sort_listview_lib.DragSortListView;
+import android.util.Log;
 
 public class NoteAdapter extends ArrayAdapter<NoteModel> implements DragSortListView.DropListener{
 	
@@ -26,7 +27,6 @@ public class NoteAdapter extends ArrayAdapter<NoteModel> implements DragSortList
 	public NoteAdapter(Context context, int resource,
 			List<NoteModel> objects) {
 		super(context, resource, objects);
-		// TODO Auto-generated constructor stub
 		this.objects = objects;
 		resourceId = resource;
 	}
@@ -36,19 +36,19 @@ public class NoteAdapter extends ArrayAdapter<NoteModel> implements DragSortList
 		for (NoteModel object : objects) {
 			object.setIsUp(true);
 		}
+		// 数据改变时 自动滑到顶部
 		this.notifyDataSetChanged();
 	}
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub		
 		return super.getCount();
 	}
-	
+
+	// 进入主页面时显示已有的note
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		
+		Log.d("init","show");
 		NoteModel noteModel = getItem(position);
 		View view;
 		ViewHolder viewHolder;
@@ -61,6 +61,7 @@ public class NoteAdapter extends ArrayAdapter<NoteModel> implements DragSortList
 			viewHolder.summary_text = (TextView) view.findViewById(R.id.summary_text);
 			viewHolder.fav_image = (ImageView) view.findViewById(R.id.fav_image);
 //			viewHolder.clip_image = (ImageView) view.findViewById(R.id.clip_image);
+			// setTag记录一些view的信息, 用于节约资源
 			view.setTag(viewHolder);
 		}
 		else
@@ -68,8 +69,9 @@ public class NoteAdapter extends ArrayAdapter<NoteModel> implements DragSortList
 			view = convertView;
 			viewHolder = (ViewHolder) view.getTag();
 		}
-		viewHolder.ago_text.setText("一天前");
+//		viewHolder.ago_text.setText("一天前");
 		viewHolder.time_text.setText(noteModel.getNoteTime());
+		Log.d("show",noteModel.getNoteContent());
 		if(noteModel.getNoteContent().length() > ConstantData.TITLE_LENGTH)
 		{
 			viewHolder.summary_text.setText(noteModel.getNoteContent().substring(0, ConstantData.TITLE_LENGTH));
@@ -114,6 +116,4 @@ public class NoteAdapter extends ArrayAdapter<NoteModel> implements DragSortList
 		TextView summary_text;
 //		ImageView clip_image;
 	}
-	
-	
 }

@@ -27,11 +27,13 @@ public class NotesListActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v){
         switch (v.getId()){
             case R.id.login_button:
+                Intent intent = new Intent(NotesListActivity.this, MainActivity.class);
+                startActivity(intent);
                 String account = editText_acco.getText().toString();
                 String password = editText_pass.getText().toString();
                 if(account.equals("hls")){
                     if (password.equals("swe")){
-                        Intent intent = new Intent(NotesListActivity.this, MainActivity.class);
+//                        Intent intent = new Intent(NotesListActivity.this, MainActivity.class);
                         startActivity(intent);
                     }else{
                         Toast.makeText(NotesListActivity.this, "密码错误",

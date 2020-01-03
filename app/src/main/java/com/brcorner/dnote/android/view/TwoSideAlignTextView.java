@@ -9,8 +9,5 @@ public class TwoSideAlignTextView extends TextView{
 
 	public TwoSideAlignTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
-
-	
 }

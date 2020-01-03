@@ -132,9 +132,6 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
     }
 
 
-    public int getDragInitMode() {
-        return mDragInitMode;
-    }
 
     /**
      * Set how a drag is initiated. Needs to be one of
@@ -157,10 +154,6 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
         mSortEnabled = enabled;
     }
 
-    public boolean isSortEnabled() {
-        return mSortEnabled;
-    }
-
     /**
      * One of {@link CLICK_REMOVE}, {@link FLING_RIGHT_REMOVE},
      * {@link FLING_LEFT_REMOVE},
@@ -170,19 +163,12 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
         mRemoveMode = mode;
     }
 
-    public int getRemoveMode() {
-        return mRemoveMode;
-    }
 
     /**
      * Enable/Disable item removal without affecting remove mode.
      */
     public void setRemoveEnabled(boolean enabled) {
         mRemoveEnabled = enabled;
-    }
-
-    public boolean isRemoveEnabled() {
-        return mRemoveEnabled;
     }
 
     /**
@@ -193,16 +179,6 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
      */
     public void setDragHandleId(int id) {
         mDragHandleId = id;
-    }
-
-    /**
-     * Set the resource id for the View that represents the fling
-     * handle in a list item.
-     *
-     * @param id An android resource id.
-     */
-    public void setFlingHandleId(int id) {
-        mFlingHandleId = id;
     }
 
     /**
@@ -310,8 +286,6 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
 
     public int startFlingPosition(MotionEvent ev) {
       return flingHandleHitPosition(ev);
-
-//     ��   return mRemoveMode == FLING_REMOVE ? flingHandleHitPosition(ev) : MISS;
     }
 
     /**
@@ -419,7 +393,6 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
                 }
             }
         }
-        // return whatever
         return false;
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">D便签</string>
+    <string name="app_name">自建便签</string>
     <string name="menu_settings">设置</string>
     <string name="title_activity_notes">便签</string>
     <string name="title">便签记事本</string>
@@ -76,7 +76,7 @@
     <string name="sinaweibo_setting_unbind">解除绑定</string>
     <string name="sinaweibo_defalut_name">用户名</string>
     <string name="delete">删除</string>
-    <string name="null_note_title">便签为空</string>
+    <string name="null_note_title">空便签</string>
     <string name="null_note_summary">点击右上角按钮新建便签</string>
     <string name="error_title">便签内容过长</string>
     <string name="error_message">便签正文内容过长，无法通过长微博分享至新浪微博。</string>
@@ -84,10 +84,10 @@
     <string name="we_chat">微信</string>
     <string name="qzone">QQ空间</string>
     <string name="we_chat_timeline">朋友圈</string>
-    <string name="share_msg">我刚刚安装了锤子便签V1.2 Android版，下载地址:http://bbs.smartisan.cn/forum.php?mod=viewthread&amp;tid=25028&amp;extra=page%3D1</string>
+    <string name="share_msg">我刚刚安装了便签V1.2 Android版，下载地址:http://bbs.smartisan.cn/forum.php?mod=viewthread&amp;tid=25028&amp;extra=page%3D1</string>
     <string name="update">更新</string>
     <string name="check_update">检查更新</string>
-    <string name="check_update_message">检测到新版的锤子便签(%s版)，是否下载新版本?</string>
+    <string name="check_update_message">检测到新版的便签(%s版)，是否下载新版本?</string>
     <string name="update_download">下载更新</string>
     <string name="update_cancel">取消更新</string>
     <string name="dialog_title_cancel">取消</string>

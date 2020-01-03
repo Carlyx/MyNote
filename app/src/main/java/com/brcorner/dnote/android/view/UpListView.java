@@ -8,8 +8,5 @@ public class UpListView extends View{
 
 	public UpListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
-
-	
 }

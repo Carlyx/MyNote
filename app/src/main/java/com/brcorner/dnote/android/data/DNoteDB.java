@@ -7,20 +7,16 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.brcorner.dnote.android.model.NoteModel;
 
 
 public class DNoteDB {
 
-	/**
-	 * 数据库名
-	 */
+	//数据库的名字
 	public static final String DB_NAME = "dnote";
 
-	/**
-	 * 数据库版本
-	 */
 	public static final int VERSION = 1;
 
 	private static DNoteDB dnoteDB;
@@ -30,13 +26,16 @@ public class DNoteDB {
 	private DNoteDB(Context context)
 	{
 		DNoteOpenHelper dbHelper = new DNoteOpenHelper(context, DB_NAME, null, VERSION);
+		Log.d("yes","in there");
 		db = dbHelper.getWritableDatabase();
 	}
 
 	public synchronized static DNoteDB getInstance(Context context)
 	{
+		Log.d("数据库","aaa");
 		if(dnoteDB == null)
 		{
+			Log.d("数据库","空");
 			dnoteDB = new DNoteDB(context);
 		}
 		return dnoteDB;
@@ -44,8 +43,10 @@ public class DNoteDB {
 
 	public int saveNote(NoteModel noteModel)
 	{
+
 		if(noteModel != null)
 		{
+			Log.d("DnoteDB","51");
 			ContentValues values = new ContentValues();
 			values.put(DNoteOpenHelper.NOTE_TIME, noteModel.getNoteTime());
 			values.put(DNoteOpenHelper.NOTE_CONTENT, noteModel.getNoteContent());
@@ -92,12 +93,14 @@ public class DNoteDB {
 		db.execSQL("delete from " + DNoteOpenHelper.TAB_NAME + " where id = ?", new Object[]{String.valueOf(noteId)});
 	}
 
+	// 从数据库中搜索相应的文本
 	public List<NoteModel> searchNotesByStr(String str)
 	{
 		List<NoteModel> list = new ArrayList<NoteModel>();
 		Cursor cursor = null;
 		if(str != null && str.length() > 0)
 		{
+			Log.d("数据库中","搜索");
 			cursor = db.rawQuery("select * from Dnote where note_content like '%"+ str +"%'",null);
 		}
 		else

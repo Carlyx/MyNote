@@ -55,69 +55,72 @@ import com.brcorner.drag_sort_listview_lib.DragSortListView;
 
 public class MainActivity extends Activity {
 
-    /**
-     * 列表页面
-     **/
+    //最开始显示的界面 分别为左上角登录 中间的标题题目 右上角的新建
     private ImageView info_image;
     private TextView title_text;
     private ImageView add_image;
 
-    /**
-     * 新增页面
-     **/
+    //为新建便签时显示的内容 分别为左上角的返回列表 右上角的完成
     private Button back_btn;
     private TextView complete_text;
     // 完成按钮为button_add
 
-    /**
-     * 完成详情页面
-     **/
+    // 新建的便签完成之后右上角的发送和删除
     private ImageView delete_image;
     private ImageView send_image;
 
+    // 标签懒加载 关于左上角登录按钮里面的内容
     private ViewStub viewstub_about;
 
+    // 一些动画声明 具体注释在下面
     private Animation bottom_in_anim, bottom_out_anim, fade_in, fade_in_300, fade_out,
             left_in, left_out, right_in, right_out, zoom_translate,scale;
-    private AnimationDrawable animationDrawable;
+
+    //整个布局 编辑页面
     private FrameLayout about_fl;
+    // 编辑页面的背景
     private View about_bg;
+    // 数据库声明
     private DNoteDB dNoteDB;
 
+    // 发送时的布局
     private RelativeLayout send_rl;
     private RelativeLayout delete_rl;
+
+    // 拖动的布局
     private DragSortListView dragSortListView;
     private DragSortController mController;
 
+    // 显示note
     private NoteAdapter noteAdapter;
 
+    // 空note时布局
     private RelativeLayout empty_note_view;
+    // 左上角的登录
     private RelativeLayout layout_info;
 
+    // 关于继承view的布局 编辑和note列表
     private FrameLayout list_fl, edit_fl;
 
+    // 搜索框
     private EditText edittext_note;
+    // 选中或取消星标
     private CheckBox fav_checkBox;
+    // 时间部分
     private TextView time_text;
+    // 分享的表
     private TableLayout layout_share;
 
-    /***
-     * 搜索栏
-     ***/
+    //关于搜索的部分 其中依次为搜索框 搜索框右边的删除文字的×
     private EditText edittext_search;
     private ImageView imageview_delete;
-    /***
-     * 搜索栏
-     ***/
 
-
-    // 保存的值
+    // 保存的值 分别为单个note和多个note组成的list
     private NoteModel noteModel;
     private List<NoteModel> dataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
         this.initView();
@@ -125,12 +128,19 @@ public class MainActivity extends Activity {
     }
 
     private void initView() {
+        // 数据库的建立
         dNoteDB = DNoteDB.getInstance(this);
+        //左上角的登录界面
         info_image = (ImageView) findViewById(R.id.info_image);
+        //标题栏的名字
         title_text = (TextView) findViewById(R.id.title_text);
+        //右上角写便签view
         add_image = (ImageView) findViewById(R.id.add_image);
+        // 左上角返回列表的按钮
         back_btn = (Button) findViewById(R.id.back_btn);
+        // 写完便签右上角完成的文字
         complete_text = (TextView) findViewById(R.id.complete_text);
+        //
         delete_image = (ImageView) findViewById(R.id.delete_image);
         send_image = (ImageView) findViewById(R.id.send_image);
         viewstub_about = (ViewStub) findViewById(R.id.viewstub_about);
@@ -170,6 +180,7 @@ public class MainActivity extends Activity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
+                Log.d("I Love","this note");
                 // TODO Auto-generated method stub
                 noteModel.setFav(isChecked);
             }
@@ -181,10 +192,16 @@ public class MainActivity extends Activity {
         this.addContentView(send_rl, params);
         this.addContentView(delete_rl, params);
 
+        // 使用AnimationUtils载入动画
+        // 表示点击右上角删除后 顶部弹框上升的动画
         bottom_in_anim = AnimationUtils.loadAnimation(this, R.anim.bottom_in);
+        // 点击底部弹框的删除按钮后 顶部弹框下降的动画
         bottom_out_anim = AnimationUtils.loadAnimation(this, R.anim.bottom_out);
+        // 表示点击右上角删除后 背景变暗的动画
         fade_in = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        // 表示点击弹框的删除后 背景变亮的动画
         fade_out = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+        // 点击顶部弹框删除按钮后 恢复主界面的动画
         left_in = AnimationUtils.loadAnimation(this, R.anim.left_in);
         left_out = AnimationUtils.loadAnimation(this, R.anim.left_out);
         right_out = AnimationUtils.loadAnimation(this, R.anim.right_out);
@@ -214,23 +231,27 @@ public class MainActivity extends Activity {
                 R.layout.search, null);
         edittext_search = (EditText) search.findViewById(R.id.edittext_search);
         imageview_delete = (ImageView) search.findViewById(R.id.imageview_delete);
-        imageview_delete.setOnClickListener(new OnClickListener() {
 
+        // 点击搜索框的右边小×  搜索框清空
+        imageview_delete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 edittext_search.setText("");
             }
         });
-        edittext_search.addTextChangedListener(new TextWatcher() {
 
+        // 搜索框逻辑 文本监听
+        edittext_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
+                Log.d("查找内容","ing");
                 String searchStr = s.toString();
                 if (s != null && s.length() > 0) {
+                    Log.d("test","1");
                     imageview_delete.setVisibility(View.VISIBLE);
+//                    imageview_delete.setVisibility(View.INVISIBLE);
                 } else {
+                    Log.d("test","2");
                     imageview_delete.setVisibility(View.GONE);
                 }
                 List<NoteModel> newList = dNoteDB.searchNotesByStr(searchStr);
@@ -277,13 +298,6 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void setDown()
-    {
-        for (NoteModel model : dataList) {
-            model.setIsUp(false);
-        }
-    }
-
     public DragSortController buildController(DragSortListView dslv) {
         DragSortController controller = new DragSortController(dslv);
         controller.setDragHandleId(R.id.drag_handle);
@@ -297,19 +311,31 @@ public class MainActivity extends Activity {
     }
 
     public void listPage() {
+        //左上角的登录部分
         info_image.setVisibility(View.VISIBLE);
+        //最上面标题栏中央的字
         title_text.setVisibility(View.VISIBLE);
+        //右上角写内容的按钮
         add_image.setVisibility(View.VISIBLE);
+
+//        info_image.setVisibility(View.INVISIBLE);
+//        title_text.setVisibility(View.INVISIBLE);
+//        add_image.setVisibility(View.INVISIBLE);
 
         back_btn.setVisibility(View.INVISIBLE);
         complete_text.setVisibility(View.INVISIBLE);
         delete_image.setVisibility(View.INVISIBLE);
         send_image.setVisibility(View.INVISIBLE);
+//        back_btn.setVisibility(View.VISIBLE);
+//        complete_text.setVisibility(View.VISIBLE);
+//        delete_image.setVisibility(View.VISIBLE);
+//        send_image.setVisibility(View.VISIBLE);
 
     }
 
-    // 进入info
+    // 进入开始界面 左上角的登录
     public void showInfoDialog(View view) {
+        Log.d("进入","info");
         viewstub_about.setVisibility(View.VISIBLE);
         bottom_in_anim.setAnimationListener(new MyAnimationListener(about_fl));
         about_fl.startAnimation(bottom_in_anim);
@@ -324,7 +350,7 @@ public class MainActivity extends Activity {
     }
 
     public void hideInfoDialog(View view) {
-
+        Log.d("退出","info");
         bottom_out_anim.setAnimationListener(new MyHideAnimationListener(new View[]{about_fl}));
         about_fl.startAnimation(bottom_out_anim);
         about_bg.setClickable(false);
@@ -337,6 +363,7 @@ public class MainActivity extends Activity {
     }
 
     public void share(View view) {
+
         fade_in_300.setAnimationListener(new MyAnimationListener(layout_share));
         layout_share.startAnimation(fade_in_300);
         layout_share.setVisibility(View.VISIBLE);
@@ -382,28 +409,28 @@ public class MainActivity extends Activity {
         CommonUtils.stack.push(ConstantData.EDIT_STATE);
     }
 
-    // 跳转编辑页面
-    @SuppressWarnings("unchecked")
+    // 跳转编辑页面, 在进入编辑页面时初始化
     public void showEdit(View view) {
+        Log.d("编辑","ing");
         showEditAnim();
         edittext_note.setFocusable(true);
         edittext_note.requestFocus();
 
-        //初始化note值 时间 是否喜欢
         noteModel = new NoteModel();
         noteModel.setFav(false);
         noteModel.setNoteTime(CommonUtils.getDate());
 
         initFinishData();
     }
-
+    // 每当进入某一个note后用于显示信息， 如note建立的内容 时间 星标
     public void initFinishData() {
+        Log.d("when", "this");
         time_text.setText(noteModel.getNoteTime());
         fav_checkBox.setChecked(noteModel.isFav());
         edittext_note.setText(noteModel.getNoteContent());
     }
 
-    // 返回列表
+    // 点击左上角返回按钮后返回列表
     public void backToList(View view) {
         listPage();
         edittext_note.setVisibility(View.GONE);
@@ -469,8 +496,10 @@ public class MainActivity extends Activity {
         CommonUtils.stack.push(ConstantData.SEND_DIALOG);
     }
 
-    // 隐藏发送弹窗
+    // 当点击完右上角的删除按钮后 弹出该弹窗
+    // AnimationListener为动画的监听器
     public void hideSendDialog(View view) {
+        //背景不可点击
         about_bg.setClickable(false);
         bottom_out_anim.setAnimationListener(new MyAnimationListener(send_rl));
         send_rl.startAnimation(bottom_out_anim);
@@ -484,70 +513,66 @@ public class MainActivity extends Activity {
 
     // 点击删除按钮
     public void doDelete(View view) {
+        Log.d("点击","删除");
+        // 点击下面弹出的删除按钮后应该隐藏该弹窗
         this.hideDeleteDialog(null);
-
-        delete_image.setImageResource(R.anim.del_btn_anim);
-        animationDrawable = (AnimationDrawable) delete_image.getDrawable();
-        animationDrawable.start();
-        int duration = 0;
-        for (int i = 0; i < animationDrawable.getNumberOfFrames(); i++) {
-            duration += animationDrawable.getDuration(i);
-        }
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                // 此处调用第二个动画播放方法
-                edit_fl.startAnimation(zoom_translate);
-                zoom_translate.setAnimationListener(new AnimationListener() {
-
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                        // TODO Auto-generated method stub
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-                        // TODO Auto-generated method stub
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        // TODO Auto-generated method stub
-                        delete_image
-                                .setImageResource(R.drawable.batch_delete_back);
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-
-                        dNoteDB.deleteNote(noteModel.getNoteId());
-
-                        backToList(null);
-
-
-                        delete_image.clearAnimation();
-                    }
-                });
-            }
-        }, duration);
+        dNoteDB.deleteNote(noteModel.getNoteId());
+        backToList(null);
+//        delete_image.setImageResource(R.anim.del_btn_anim);
+//        animationDrawable = (AnimationDrawable) delete_image.getDrawable();
+//        animationDrawable.start();
+//        int duration = 0;
+//        for (int i = 0; i < animationDrawable.getNumberOfFrames(); i++) {
+//            duration += animationDrawable.getDuration(i);
+//        }
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            public void run() {
+//                edit_fl.startAnimation(zoom_translate);
+//                zoom_translate.setAnimationListener(new AnimationListener() {
+//
+//                    @Override
+//                    public void onAnimationStart(Animation animation) {
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animation animation) {
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animation animation) {
+//                        delete_image
+//                                .setImageResource(R.drawable.batch_delete_back);
+//                        try {
+//                            Thread.sleep(1);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//
+//
+//
+//                        delete_image.clearAnimation();
+//                    }
+//                });
+//            }
+//        }, duration);
     }
 
     private void noteFinishState() {
+        Log.d("右上角","完成");
         back_btn.setVisibility(View.VISIBLE);
         delete_image.setVisibility(View.VISIBLE);
-        send_image.setVisibility(View.VISIBLE);
 
+        send_image.setVisibility(View.INVISIBLE);
         info_image.setVisibility(View.INVISIBLE);
         title_text.setVisibility(View.INVISIBLE);
         add_image.setVisibility(View.INVISIBLE);
         complete_text.setVisibility(View.INVISIBLE);
     }
-
+    //当点击右上角新建之后
     private void noteEditState() {
+        Log.d("右上角","新建");
         back_btn.setVisibility(View.VISIBLE);
         complete_text.setVisibility(View.VISIBLE);
 
@@ -558,11 +583,14 @@ public class MainActivity extends Activity {
         send_image.setVisibility(View.INVISIBLE);
     }
 
-    // 完成
+    // 点击右上角完成之后
     public void doFinish(View view) {
         // 修改头部
+        Log.d("完成","done");
         String noteContent = edittext_note.getText().toString();
+        Log.d("内容是",noteContent);
         if (noteContent != null && noteContent.length() > 0) {
+            //失去焦点 退出键盘
             edittext_note.clearFocus();
 
             noteModel.setNoteContent(noteContent);
@@ -571,20 +599,19 @@ public class MainActivity extends Activity {
         } else {
             backToList(null);
         }
-
     }
 
     public void doClickBg(View view) {
         CommonUtils.doFinish(this);
     }
 
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            CommonUtils.doFinish(this);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        Log.d("sad","adsad");
+//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+//            CommonUtils.doFinish(this);
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
 }
