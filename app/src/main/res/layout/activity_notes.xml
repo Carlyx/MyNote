@@ -54,20 +54,25 @@
                     android:textSize="@dimen/empty_primary_hint1_size" />
             </RelativeLayout>
 
-            <com.brcorner.drag_sort_listview_lib.DragSortListView
-                android:id="@+id/listview_notes"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                float_background_color="@android:color/transparent"
-                track_drag_scroll="false"
-                android:cacheColorHint="@android:color/transparent"
-                android:divider="@android:color/transparent"
-                android:fadingEdge="none"
-                android:fadingEdgeLength="0.0dip"
-                android:listSelector="@android:color/transparent"
-                android:overScrollMode="always"
-                dslv:drag_scroll_start="0.25"
-                dslv:max_drag_scroll_speed="0.1" />
+            <!--<com.brcorner.drag_sort_listview_lib.DragSortListView-->
+                <!--android:id="@+id/listview_notes"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="fill_parent"-->
+                <!--float_background_color="@android:color/transparent"-->
+                <!--track_drag_scroll="false"-->
+                <!--android:cacheColorHint="@android:color/transparent"-->
+                <!--android:divider="@android:color/transparent"-->
+                <!--android:fadingEdge="none"-->
+                <!--android:fadingEdgeLength="0.0dip"-->
+                <!--android:listSelector="@android:color/transparent"-->
+                <!--android:overScrollMode="always"-->
+                <!--dslv:drag_scroll_start="0.25"-->
+                <!--dslv:max_drag_scroll_speed="0.1" />-->
+
+            <ListView
+                android:id="@+id/listview_my"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
             <com.brcorner.dnote.android.view.UpListView
                 android:id="@+id/listview_clip"
@@ -243,6 +248,7 @@
             android:orientation="horizontal"
             android:paddingLeft="@dimen/title_bar_padding_right"
             android:paddingRight="@dimen/title_bar_padding_right" >
+
 
             <ImageView
                 android:id="@+id/info_image"

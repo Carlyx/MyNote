@@ -128,9 +128,10 @@ public class DNoteDB {
 		}
 		return list;
 	}
-
+	// 加载数据库里面的all notes
 	public List<NoteModel> loadNotes()
 	{
+		Log.d("DnoteDB.java","加载all数据");
 		List<NoteModel> list = new ArrayList<NoteModel>();
 //		Cursor cursor = db.rawQuery("select * from Dnote order by note_rankId",null);
 		Cursor cursor = db.query(DNoteOpenHelper.TAB_NAME, null, null, null, null, null, null);

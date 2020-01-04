@@ -37,6 +37,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -49,8 +50,8 @@ import com.brcorner.dnote.android.listener.MyAnimationListener;
 import com.brcorner.dnote.android.listener.MyHideAnimationListener;
 import com.brcorner.dnote.android.model.NoteModel;
 import com.brcorner.dnote.android.utils.CommonUtils;
-import com.brcorner.drag_sort_listview_lib.DragSortController;
-import com.brcorner.drag_sort_listview_lib.DragSortListView;
+//import com.brcorner.drag_sort_listview_lib.DragSortController;
+//import com.brcorner.drag_sort_listview_lib.DragSortListView;
 
 
 public class MainActivity extends Activity {
@@ -91,8 +92,10 @@ public class MainActivity extends Activity {
     private RelativeLayout delete_rl;
 
     // 拖动的布局
-    private DragSortListView dragSortListView;
-    private DragSortController mController;
+//    private DragSortListView dragSortListView;
+//    private DragSortController mController;
+    // 自建的非拖动布局
+    private ListView my_list_view;
 
     // 显示note
     private NoteAdapter noteAdapter;
@@ -239,9 +242,11 @@ public class MainActivity extends Activity {
         // 进入编辑页面编辑框放缩的页面
         scale = AnimationUtils.loadAnimation(this,R.anim.scale);
         // 拖动功能
-        dragSortListView = (DragSortListView) findViewById(R.id.listview_notes);
+//        dragSortListView = (DragSortListView) findViewById(R.id.listview_notes);
+        // 自建非拖动功能
+        my_list_view = (ListView) findViewById(R.id.listview_my);
 
-        // 以下几行为判断显示空页面还是有note页面
+        // 以下几行为判断显示空页面还是有note页面  同时获取适配器的数据源 也为从数据库获取all notes
         dataList = dNoteDB.loadNotes();
         if (dataList != null && dataList.size() > 0) {
             empty_note_view.setVisibility(View.INVISIBLE);
@@ -249,15 +254,19 @@ public class MainActivity extends Activity {
             empty_note_view.setVisibility(View.VISIBLE);
         }
 
+        //创建数组适配器，作为数据源和列表控件联系的桥梁
+        //第一个参数：上下文环境
+        //第二个参数：当前列表项加载的布局文件
+        //第三个参数：数据源
         noteAdapter = new NoteAdapter(this, R.layout.list_notes_item, dataList);
-        mController = buildController(dragSortListView);
-        dragSortListView.setFloatViewManager(mController);
-        dragSortListView.setOnTouchListener(mController);
-        // 控制能否拖动
-        dragSortListView.setDragEnabled(false);
+//        mController = buildController(dragSortListView);
+//        dragSortListView.setFloatViewManager(mController);
+//        dragSortListView.setOnTouchListener(mController);
+//        // 控制能否拖动
+//        dragSortListView.setDragEnabled(false);
 
 
-        //搜索框
+        //搜索框 依次为搜索框和右边的×号
         LinearLayout search = (LinearLayout) View.inflate(this,
                 R.layout.search, null);
         edittext_search = (EditText) search.findViewById(R.id.edittext_search);
@@ -288,6 +297,7 @@ public class MainActivity extends Activity {
                 List<NoteModel> newList = dNoteDB.searchNotesByStr(searchStr);
                 dataList.clear();
                 dataList.addAll(newList);
+                // 通过一个外部的方法控制如果适配器的内容改变时需要强制调用getView来刷新每个Item的内容。
                 if (noteAdapter != null) {
                     noteAdapter.notifyDataSetChanged();
                 }
@@ -306,20 +316,34 @@ public class MainActivity extends Activity {
 
             }
         });
-
-        dragSortListView.addHeaderView(search);
-        dragSortListView.setAdapter(noteAdapter);
-
-        dragSortListView
+        my_list_view.addHeaderView(search);
+        my_list_view.setAdapter(noteAdapter);
+        my_list_view
                 .setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View arg1,
                                             int arg2, long arg3) {
+                        Log.d("MainActivity.java","322");
                         noteModel = dataList.get(arg2 - 1);
                         showFinish();
                         noteFinishState();
                     }
                 });
+
+//        dragSortListView.addHeaderView(search);
+//        dragSortListView.setAdapter(noteAdapter);
+//        // 点击进某一便签的编辑页面则触发
+//        dragSortListView
+//                .setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> arg0, View arg1,
+//                                            int arg2, long arg3) {
+//                        Log.d("MainActivity.java","322");
+//                        noteModel = dataList.get(arg2 - 1);
+//                        showFinish();
+//                        noteFinishState();
+//                    }
+//                });
     }
 
     public void setUp()
@@ -329,17 +353,17 @@ public class MainActivity extends Activity {
         }
     }
 
-    public DragSortController buildController(DragSortListView dslv) {
-        DragSortController controller = new DragSortController(dslv);
-        controller.setDragHandleId(R.id.drag_handle);
-        controller.setClickRemoveId(R.id.click_remove);
-        controller.setRemoveEnabled(true);
-        controller.setSortEnabled(true);
-        controller.setDragInitMode(DragSortController.ON_LONG_PRESS);
-        controller.setRemoveMode(DragSortController.CLICK_REMOVE);
-
-        return controller;
-    }
+//    public DragSortController buildController(DragSortListView dslv) {
+//        DragSortController controller = new DragSortController(dslv);
+//        controller.setDragHandleId(R.id.drag_handle);
+//        controller.setClickRemoveId(R.id.click_remove);
+//        controller.setRemoveEnabled(true);
+//        controller.setSortEnabled(true);
+//        controller.setDragInitMode(DragSortController.ON_LONG_PRESS);
+//        controller.setRemoveMode(DragSortController.CLICK_REMOVE);
+//
+//        return controller;
+//    }
 
     public void listPage() {
         //左上角的登录部分
@@ -380,7 +404,7 @@ public class MainActivity extends Activity {
 
         CommonUtils.stack.push(ConstantData.INFOR_DIALOG);
     }
-
+    // 左上角登录弹框后点×后退出弹框
     public void hideInfoDialog(View view) {
         Log.d("退出","info");
         bottom_out_anim.setAnimationListener(new MyHideAnimationListener(new View[]{about_fl}));
@@ -390,19 +414,18 @@ public class MainActivity extends Activity {
         about_bg.startAnimation(fade_out);
         layout_share.setVisibility(View.GONE);
         layout_info.setVisibility(View.VISIBLE);
-
         CommonUtils.stack.pop();
     }
 
-    public void share(View view) {
-
-        fade_in_300.setAnimationListener(new MyAnimationListener(layout_share));
-        layout_share.startAnimation(fade_in_300);
-        layout_share.setVisibility(View.VISIBLE);
-        layout_info.setVisibility(View.GONE);
-    }
-
+//    public void share(View view) {
+//        fade_in_300.setAnimationListener(new MyAnimationListener(layout_share));
+//        layout_share.startAnimation(fade_in_300);
+//        layout_share.setVisibility(View.VISIBLE);
+//        layout_info.setVisibility(View.GONE);
+//    }
+    // 进入某一便签的编辑页面时触发
     public void showFinish() {
+        Log.d("MainActivity.java","showFinish()");
         showEditAnim();
         initFinishData();
     }
@@ -639,7 +662,24 @@ public class MainActivity extends Activity {
         CommonUtils.doFinish(this);
     }
 
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.left_top, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.recycle_bin:
+                break;
+            case R.id.login_out:
+                break;
+        }
+        return true;
+    }
+
+    //    public boolean onKeyDown(int keyCode, KeyEvent event) {
 //        Log.d("sad","adsad");
 //        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
 //            CommonUtils.doFinish(this);
