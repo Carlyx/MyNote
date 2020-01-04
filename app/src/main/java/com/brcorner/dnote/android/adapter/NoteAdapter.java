@@ -16,7 +16,7 @@ import com.brcorner.dnote.android.data.ConstantData;
 import com.brcorner.dnote.android.model.NoteModel;
 import com.brcorner.drag_sort_listview_lib.DragSortListView;
 import android.util.Log;
-
+// 适配器（adapter）在android中是数据和视图（View）之间的一个桥梁，通过适配器以便于数据在view视图上显示。本文在model文件夹里面继承了ArrayAdapter来实现。
 public class NoteAdapter extends ArrayAdapter<NoteModel> implements DragSortListView.DropListener{
 	
 	

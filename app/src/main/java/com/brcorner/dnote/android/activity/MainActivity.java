@@ -55,7 +55,7 @@ import com.brcorner.drag_sort_listview_lib.DragSortListView;
 
 public class MainActivity extends Activity {
 
-    //最开始显示的界面 分别为左上角登录 中间的标题题目 右上角的新建
+    //最开始显示的界面 分别为左上角登录图标 中间的标题题目 右上角的新建
     private ImageView info_image;
     private TextView title_text;
     private ImageView add_image;
@@ -76,15 +76,18 @@ public class MainActivity extends Activity {
     private Animation bottom_in_anim, bottom_out_anim, fade_in, fade_in_300, fade_out,
             left_in, left_out, right_in, right_out, zoom_translate,scale;
 
-    //整个布局 编辑页面
+    //左上角点击登录之后的布局
     private FrameLayout about_fl;
-    // 编辑页面的背景
+
+    // 点击左上角登录按钮后背景会变暗 这个为变暗的背景
     private View about_bg;
+
     // 数据库声明
     private DNoteDB dNoteDB;
 
     // 发送时的布局
     private RelativeLayout send_rl;
+    // 下面弹出删除窗口的布局
     private RelativeLayout delete_rl;
 
     // 拖动的布局
@@ -99,10 +102,10 @@ public class MainActivity extends Activity {
     // 左上角的登录
     private RelativeLayout layout_info;
 
-    // 关于继承view的布局 编辑和note列表
+    // 关于继承view的布局 空note列表和非空note列表
     private FrameLayout list_fl, edit_fl;
 
-    // 搜索框
+    // note输入部分
     private EditText edittext_note;
     // 选中或取消星标
     private CheckBox fav_checkBox;
@@ -123,7 +126,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
+        // 布局设置
         this.initView();
+        // 加载页面
         listPage();
     }
 
@@ -140,31 +145,48 @@ public class MainActivity extends Activity {
         back_btn = (Button) findViewById(R.id.back_btn);
         // 写完便签右上角完成的文字
         complete_text = (TextView) findViewById(R.id.complete_text);
-        //
+        // 删除按钮的红色背景
         delete_image = (ImageView) findViewById(R.id.delete_image);
+        // 发送信息的按钮
         send_image = (ImageView) findViewById(R.id.send_image);
+        // 关于左上角登录按钮的一些懒标记
         viewstub_about = (ViewStub) findViewById(R.id.viewstub_about);
+        // 让一些懒标记显示
         viewstub_about.inflate();
+        //左上角点击登录之后的布局
         about_fl = (FrameLayout) findViewById(R.id.about_fl);
+
+        // 左上角登录按钮弹出窗口上面的相关布局
         layout_share = (TableLayout) findViewById(R.id.layout_share);
         layout_info = (RelativeLayout) findViewById(R.id.layout_info);
+
+        // 点击左上角登录按钮后背景会变暗 这个为变暗的背景
         about_bg = findViewById(R.id.about_bg);
 
+        // 发送的相关布局
         send_rl = (RelativeLayout) View.inflate(this, R.layout.send_dialog,
                 null);
+        // 点击右上角删除按钮弹出下面窗口的布局
         delete_rl = (RelativeLayout) View.inflate(this, R.layout.delete_dialog,
                 null);
+        // 没有任何note时空便签
         empty_note_view = (RelativeLayout) findViewById(R.id.empty_note_view);
+        // 空note列表
         list_fl = (FrameLayout) findViewById(R.id.list_fl);
+        // 非空note列表
         edit_fl = (FrameLayout) findViewById(R.id.edit_fl);
+        // note编辑输入部分
         edittext_note = (EditText) findViewById(R.id.edittext_note);
+        // 监听note输入部分的焦点变化， 如是否进入 退出等
         edittext_note.setOnFocusChangeListener(new OnFocusChangeListener() {
-
             @Override
+            // v 发生变化的视图    hasFocus:用来判断视图是否获得了焦点
             public void onFocusChange(View v, boolean hasFocus) {
-                // TODO Auto-generated method stub
+                Log.d("MainActivity.java","181");
+                // 只有当view本身以及它的所有祖先们都是visible时，isShown()才返回TRUE
                 if (edittext_note.isShown()) {
                     if (hasFocus) {
+                        //获得焦点后 进入新建的页面
                         noteEditState();
                     } else {
                         noteFinishState();
@@ -173,22 +195,24 @@ public class MainActivity extends Activity {
 
             }
         });
+        // 星标
         fav_checkBox = (CheckBox) findViewById(R.id.fav_checkBox);
+        // 时间显示
         time_text = (TextView) findViewById(R.id.time_text);
+        // 点击星标的事件
         fav_checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
-                Log.d("I Love","this note");
-                // TODO Auto-generated method stub
+                Log.d("MainActivity.java","205");
                 noteModel.setFav(isChecked);
             }
         });
+
+        // 动态布局
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT);
-
         this.addContentView(send_rl, params);
         this.addContentView(delete_rl, params);
 
@@ -201,29 +225,36 @@ public class MainActivity extends Activity {
         fade_in = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         // 表示点击弹框的删除后 背景变亮的动画
         fade_out = AnimationUtils.loadAnimation(this, R.anim.fade_out);
-        // 点击顶部弹框删除按钮后 恢复主界面的动画
+        // 点击底部弹框删除按钮后 恢复主界面的动画
         left_in = AnimationUtils.loadAnimation(this, R.anim.left_in);
-        left_out = AnimationUtils.loadAnimation(this, R.anim.left_out);
+//        left_out = AnimationUtils.loadAnimation(this, R.anim.left_out);
+        // 点击返回列表返回页面的动画
         right_out = AnimationUtils.loadAnimation(this, R.anim.right_out);
+        // 进入编辑页面的动画
         right_in = AnimationUtils.loadAnimation(this, R.anim.right_in);
+        // 分享的动画
         fade_in_300 = AnimationUtils.loadAnimation(this, R.anim.fade_in_100);
-        zoom_translate = AnimationUtils.loadAnimation(this,
-                R.anim.zoom_translate);
+//        zoom_translate = AnimationUtils.loadAnimation(this,
+//                R.anim.zoom_translate);
+        // 进入编辑页面编辑框放缩的页面
         scale = AnimationUtils.loadAnimation(this,R.anim.scale);
-
+        // 拖动功能
         dragSortListView = (DragSortListView) findViewById(R.id.listview_notes);
 
+        // 以下几行为判断显示空页面还是有note页面
         dataList = dNoteDB.loadNotes();
         if (dataList != null && dataList.size() > 0) {
             empty_note_view.setVisibility(View.INVISIBLE);
         } else {
             empty_note_view.setVisibility(View.VISIBLE);
         }
+
         noteAdapter = new NoteAdapter(this, R.layout.list_notes_item, dataList);
         mController = buildController(dragSortListView);
         dragSortListView.setFloatViewManager(mController);
         dragSortListView.setOnTouchListener(mController);
-        dragSortListView.setDragEnabled(true);
+        // 控制能否拖动
+        dragSortListView.setDragEnabled(false);
 
 
         //搜索框
@@ -344,6 +375,7 @@ public class MainActivity extends Activity {
         fade_in.setAnimationListener(new MyAnimationListener(about_bg));
         about_bg.startAnimation(fade_in);
         about_bg.setVisibility(View.VISIBLE);
+//        about_bg.setVisibility(View.INVISIBLE);
         about_bg.setClickable(true);
 
         CommonUtils.stack.push(ConstantData.INFOR_DIALOG);
@@ -374,11 +406,12 @@ public class MainActivity extends Activity {
         showEditAnim();
         initFinishData();
     }
-
+    // 进入编辑页面的动画
     public void showEditAnim() {
+        Log.d("MainActivity.java","showEditAnim");
         edittext_note.setVisibility(View.VISIBLE);
-        left_out.setAnimationListener(new MyAnimationListener(list_fl));
-        list_fl.startAnimation(left_out);
+//        left_out.setAnimationListener(new MyAnimationListener(list_fl));
+//        list_fl.startAnimation(left_out);
         list_fl.setVisibility(View.INVISIBLE);
 
         edit_fl.setScaleX(0.95f);
@@ -390,6 +423,7 @@ public class MainActivity extends Activity {
 
             }
 
+            // 当进入编辑页面的动画结束时  缩放编辑页面框的大小
             @Override
             public void onAnimationEnd(Animation animation) {
                 edit_fl.startAnimation(scale);
@@ -558,9 +592,9 @@ public class MainActivity extends Activity {
 //            }
 //        }, duration);
     }
-
+    // 当进入已编辑的note时（或是点击完成后） 显示界面
     private void noteFinishState() {
-        Log.d("右上角","完成");
+        Log.d("MainActivity.java","noteFinishState()");
         back_btn.setVisibility(View.VISIBLE);
         delete_image.setVisibility(View.VISIBLE);
 
