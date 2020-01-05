@@ -185,35 +185,35 @@
                             android:orientation="horizontal"
                             android:paddingLeft="38.0dip" >
 
-                            <TextView
-                                android:id="@+id/textview_call_info"
-                                android:layout_width="wrap_content"
-                                android:layout_height="fill_parent"
-                                android:layout_alignParentLeft="true"
-                                android:ellipsize="end"
-                                android:gravity="center_vertical"
-                                android:maxWidth="280.0dip"
-                                android:singleLine="true"
-                                android:textColor="@color/time_color"
-                                android:textSize="@dimen/time_text_size"
-                                android:visibility="visible" />
+                            <!--<TextView-->
+                                <!--android:id="@+id/textview_call_info"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="fill_parent"-->
+                                <!--android:layout_alignParentLeft="true"-->
+                                <!--android:ellipsize="end"-->
+                                <!--android:gravity="center_vertical"-->
+                                <!--android:maxWidth="280.0dip"-->
+                                <!--android:singleLine="true"-->
+                                <!--android:textColor="@color/time_color"-->
+                                <!--android:textSize="@dimen/time_text_size"-->
+                                <!--android:visibility="visible" />-->
 
-                            <TextView
-                                android:id="@+id/textview_ago"
-                                android:layout_width="wrap_content"
-                                android:layout_height="fill_parent"
-                                android:layout_alignParentLeft="true"
-                                android:gravity="center_vertical"
-                                android:singleLine="true"
-                                android:textColor="@color/time_color"
-                                android:textSize="@dimen/time_text_size" />
+                            <!--<TextView-->
+                                <!--android:id="@+id/textview_ago"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="fill_parent"-->
+                                <!--android:layout_alignParentLeft="true"-->
+                                <!--android:gravity="center_vertical"-->
+                                <!--android:singleLine="true"-->
+                                <!--android:textColor="@color/time_color"-->
+                                <!--android:textSize="@dimen/time_text_size" />-->
 
                             <TextView
                                 android:id="@+id/time_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="fill_parent"
                                 android:layout_marginLeft="13.5dip"
-                                android:layout_toRightOf="@id/textview_ago"
+
                                 android:ellipsize="end"
                                 android:gravity="center_vertical"
                                 android:singleLine="true"
@@ -228,13 +228,13 @@
                                 android:button="@drawable/fav_checkbox" />
                         </RelativeLayout>
 
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/frameLayout_edit_scroll"
-                            android:layout_marginRight="@dimen/bottom_to_right"
-                            android:background="@drawable/note_paper_bottom"
-                            android:orientation="vertical" />
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="fill_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@id/frameLayout_edit_scroll"-->
+                            <!--android:layout_marginRight="@dimen/bottom_to_right"-->
+                            <!--android:background="@drawable/note_paper_bottom"-->
+                            <!--android:orientation="vertical" />-->
                     </RelativeLayout>
                 </ScrollView>
             </LinearLayout>
@@ -259,7 +259,8 @@
                 android:clickable="true"
                 android:onClick="showInfoDialog"
                 android:scaleType="center"
-                android:src="@mipmap/info" />
+                android:src="@mipmap/info"
+                />
 
             <Button
                 android:id="@+id/back_btn"
@@ -332,17 +333,17 @@
                 android:textSize="@dimen/button_text_size"
                 android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/send_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/delete_image"
-                android:background="@drawable/btn_back"
-                android:clickable="true"
-                android:onClick="showSendDialog"
-                android:scaleType="center"
-                android:src="@mipmap/send_icon"
-                android:visibility="gone" />
+            <!--<ImageView-->
+                <!--android:id="@+id/send_image"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toLeftOf="@id/delete_image"-->
+                <!--android:background="@drawable/btn_back"-->
+                <!--android:clickable="true"-->
+                <!--android:onClick="showSendDialog"-->
+                <!--android:scaleType="center"-->
+                <!--android:src="@mipmap/send_icon"-->
+                <!--android:visibility="gone" />-->
         </RelativeLayout>
     </RelativeLayout>
 

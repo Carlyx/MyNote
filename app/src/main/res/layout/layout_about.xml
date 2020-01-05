@@ -16,7 +16,7 @@
     <FrameLayout
         android:id="@+id/about_fl"
         android:layout_width="fill_parent"
-        android:layout_height="480.0dip"
+        android:layout_height="280.0dip"
         android:layout_gravity="center"
         android:visibility="invisible"
          >
@@ -26,18 +26,18 @@
             android:layout_height="fill_parent"
             android:background="@drawable/about_bg" >
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="35.5dip"
-                android:src="@mipmap/logo" />
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="35.5dip"-->
+                <!--android:src="@mipmap/logo" />-->
 
             <View
                 android:id="@+id/slash"
                 android:layout_width="fill_parent"
                 android:layout_height="1.0dip"
-                android:layout_marginTop="120.0dip"
+                android:layout_marginTop="20.0dip"
                 android:background="#ffeaeaea" />
 
             <RelativeLayout
@@ -51,12 +51,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="39.5dip"
+                    android:layout_marginTop="35.0dip"
                     android:background="@drawable/share_button_selector"
                     android:gravity="center"
-                    android:text="@string/share"
+                    android:text="登出"
                     android:clickable="true"
-                    android:onClick="share"
+                    android:onClick="login_out"
                     android:textColor="@color/update_textcolor" />
 
                 <Button
@@ -66,9 +66,10 @@
                     android:layout_below="@id/share"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/share_button_selector"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:gravity="center"
-                    android:text="@string/update"
+                    android:text="回收站"
+                    android:onClick="login_out"
                     android:textColor="@color/update_textcolor" />
 
                 <TextView
@@ -76,42 +77,44 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/update"
+                    android:layout_marginTop="55.0dip"
                     android:layout_centerHorizontal="true"
                     android:textColor="#ff686868"
+                    android:text="pangyouxin2020@ia.ac.cn"
                     android:textSize="9.0dip" />
 
-                <TextView
-                    android:id="@+id/tv_email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_version"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20.0dip"
-                    android:autoLink="email"
-                    android:linksClickable="false"
-                    android:text="@string/support_email"
-                    android:textColor="#ff1f73c1"
-                    android:textSize="9.0dip" />
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_email"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@id/tv_version"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:layout_marginTop="20.0dip"-->
+                    <!--android:autoLink="email"-->
+                    <!--android:linksClickable="false"-->
+                    <!--android:text="@string/support_email"-->
+                    <!--android:textColor="#ff1f73c1"-->
+                    <!--android:textSize="9.0dip" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_email"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="19.0dip"
-                    android:text="@string/smartisan"
-                    android:textColor="#ffa3a3a3"
-                    android:textSize="9.0dip" />
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@id/tv_email"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:layout_marginTop="19.0dip"-->
+                    <!--android:text="@string/smartisan"-->
+                    <!--android:textColor="#ffa3a3a3"-->
+                    <!--android:textSize="9.0dip" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="32.0dip"
-                    android:text="@string/copyrights"
-                    android:textColor="#ffa3a3a3"
-                    android:textSize="6.0dip" />
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentBottom="true"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:layout_marginBottom="32.0dip"-->
+                    <!--android:text="@string/copyrights"-->
+                    <!--android:textColor="#ffa3a3a3"-->
+                    <!--android:textSize="6.0dip" />-->
             </RelativeLayout>
 
             <TableLayout

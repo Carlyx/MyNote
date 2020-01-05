@@ -107,6 +107,7 @@ public class DNoteDB {
 		{
 			cursor = db.query(DNoteOpenHelper.TAB_NAME, null, null, null, null, null, null);
 		}
+		// moveToFirst() 为指向结果查询的第一个结果 同时判断是否查询为空 不断把每一个note放入list中
 		if(cursor.moveToFirst())
 		{
 			do{

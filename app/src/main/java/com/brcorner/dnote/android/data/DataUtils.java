@@ -44,7 +44,7 @@ public class DataUtils {
 		NoteModel noteModel6 = new NoteModel();
 		noteModel6.setFav(false);
 		noteModel6.setNoteTime("7:13 5月13日");
-		noteModel6.setNoteContent("我爱我的小老婆婆");
+		noteModel6.setNoteContent("我爱我");
 		lst.add(noteModel6);
 		return lst;
 	}

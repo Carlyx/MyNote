@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -68,7 +69,7 @@ public class MainActivity extends Activity {
 
     // 新建的便签完成之后右上角的发送和删除
     private ImageView delete_image;
-    private ImageView send_image;
+//    private ImageView send_image;
 
     // 标签懒加载 关于左上角登录按钮里面的内容
     private ViewStub viewstub_about;
@@ -115,7 +116,7 @@ public class MainActivity extends Activity {
     // 时间部分
     private TextView time_text;
     // 分享的表
-    private TableLayout layout_share;
+//    private TableLayout layout_share;
 
     //关于搜索的部分 其中依次为搜索框 搜索框右边的删除文字的×
     private EditText edittext_search;
@@ -151,7 +152,7 @@ public class MainActivity extends Activity {
         // 删除按钮的红色背景
         delete_image = (ImageView) findViewById(R.id.delete_image);
         // 发送信息的按钮
-        send_image = (ImageView) findViewById(R.id.send_image);
+//        send_image = (ImageView) findViewById(R.id.send_image);
         // 关于左上角登录按钮的一些懒标记
         viewstub_about = (ViewStub) findViewById(R.id.viewstub_about);
         // 让一些懒标记显示
@@ -160,7 +161,7 @@ public class MainActivity extends Activity {
         about_fl = (FrameLayout) findViewById(R.id.about_fl);
 
         // 左上角登录按钮弹出窗口上面的相关布局
-        layout_share = (TableLayout) findViewById(R.id.layout_share);
+//        layout_share = (TableLayout) findViewById(R.id.layout_share);
         layout_info = (RelativeLayout) findViewById(R.id.layout_info);
 
         // 点击左上角登录按钮后背景会变暗 这个为变暗的背景
@@ -318,9 +319,11 @@ public class MainActivity extends Activity {
         });
         my_list_view.addHeaderView(search);
         my_list_view.setAdapter(noteAdapter);
+        // 单note点击事件
         my_list_view
                 .setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
+                    // arg0：是指父View  arg1就是你点击的那个Item的View arg2是position，position是你适配器里面的position
                     public void onItemClick(AdapterView<?> arg0, View arg1,
                                             int arg2, long arg3) {
                         Log.d("MainActivity.java","322");
@@ -346,12 +349,12 @@ public class MainActivity extends Activity {
 //                });
     }
 
-    public void setUp()
-    {
-        for (NoteModel model : dataList) {
-            model.setIsUp(true);
-        }
-    }
+//    public void setUp()
+//    {
+//        for (NoteModel model : dataList) {
+//            model.setIsUp(true);
+//        }
+//    }
 
 //    public DragSortController buildController(DragSortListView dslv) {
 //        DragSortController controller = new DragSortController(dslv);
@@ -380,7 +383,7 @@ public class MainActivity extends Activity {
         back_btn.setVisibility(View.INVISIBLE);
         complete_text.setVisibility(View.INVISIBLE);
         delete_image.setVisibility(View.INVISIBLE);
-        send_image.setVisibility(View.INVISIBLE);
+//        send_image.setVisibility(View.INVISIBLE);
 //        back_btn.setVisibility(View.VISIBLE);
 //        complete_text.setVisibility(View.VISIBLE);
 //        delete_image.setVisibility(View.VISIBLE);
@@ -392,12 +395,12 @@ public class MainActivity extends Activity {
     public void showInfoDialog(View view) {
         Log.d("进入","info");
         viewstub_about.setVisibility(View.VISIBLE);
-        bottom_in_anim.setAnimationListener(new MyAnimationListener(about_fl));
-        about_fl.startAnimation(bottom_in_anim);
+//        bottom_in_anim.setAnimationListener(new MyAnimationListener(about_fl));
+//        about_fl.startAnimation(bottom_in_anim);
         about_fl.setVisibility(View.VISIBLE);
 
-        fade_in.setAnimationListener(new MyAnimationListener(about_bg));
-        about_bg.startAnimation(fade_in);
+//        fade_in.setAnimationListener(new MyAnimationListener(about_bg));
+//        about_bg.startAnimation(fade_in);
         about_bg.setVisibility(View.VISIBLE);
 //        about_bg.setVisibility(View.INVISIBLE);
         about_bg.setClickable(true);
@@ -412,7 +415,7 @@ public class MainActivity extends Activity {
         about_bg.setClickable(false);
         fade_out.setAnimationListener(new MyHideAnimationListener(new View[]{viewstub_about, about_bg}));
         about_bg.startAnimation(fade_out);
-        layout_share.setVisibility(View.GONE);
+//        layout_share.setVisibility(View.GONE);
         layout_info.setVisibility(View.VISIBLE);
         CommonUtils.stack.pop();
     }
@@ -423,6 +426,12 @@ public class MainActivity extends Activity {
 //        layout_share.setVisibility(View.VISIBLE);
 //        layout_info.setVisibility(View.GONE);
 //    }
+    // 登出的事件
+    public void login_out(View view){
+        Intent intent = new Intent(MainActivity.this, NotesListActivity.class);
+        startActivity(intent);
+    }
+
     // 进入某一便签的编辑页面时触发
     public void showFinish() {
         Log.d("MainActivity.java","showFinish()");
@@ -437,8 +446,8 @@ public class MainActivity extends Activity {
 //        list_fl.startAnimation(left_out);
         list_fl.setVisibility(View.INVISIBLE);
 
-        edit_fl.setScaleX(0.95f);
-        edit_fl.setScaleY(0.95f);
+        edit_fl.setScaleX(0.8f);
+        edit_fl.setScaleY(0.8f);
         scale.setAnimationListener(new MyAnimationListener(edit_fl));
         right_in.setAnimationListener(new AnimationListener() {
             @Override
@@ -481,7 +490,7 @@ public class MainActivity extends Activity {
     }
     // 每当进入某一个note后用于显示信息， 如note建立的内容 时间 星标
     public void initFinishData() {
-        Log.d("when", "this");
+        Log.d("MainActivity.java", "initFinishData");
         time_text.setText(noteModel.getNoteTime());
         fav_checkBox.setChecked(noteModel.isFav());
         edittext_note.setText(noteModel.getNoteContent());
@@ -489,6 +498,7 @@ public class MainActivity extends Activity {
 
     // 点击左上角返回按钮后返回列表
     public void backToList(View view) {
+        Log.d("MainActivity.java","backToList");
         listPage();
         edittext_note.setVisibility(View.GONE);
         right_out.setAnimationListener(new MyAnimationListener(edit_fl));
@@ -516,8 +526,9 @@ public class MainActivity extends Activity {
 
     // 显示删除列表
     public void showDeleteDialog(View view) {
-        bottom_in_anim.setAnimationListener(new MyAnimationListener(delete_rl));
-        delete_rl.startAnimation(bottom_in_anim);
+        Log.d("MainActivity.java","showDeleteDialog");
+//        bottom_in_anim.setAnimationListener(new MyAnimationListener(delete_rl));
+//        delete_rl.startAnimation(bottom_in_anim);
         delete_rl.setVisibility(View.VISIBLE);
 
         fade_in.setAnimationListener(new MyAnimationListener(about_bg));
@@ -529,6 +540,7 @@ public class MainActivity extends Activity {
 
     // 隐藏删除弹窗
     public void hideDeleteDialog(View view) {
+        Log.d("MainActivity.java","hideDeleteDialog");
         about_bg.setClickable(false);
         bottom_out_anim
                 .setAnimationListener(new MyAnimationListener(delete_rl));
@@ -542,31 +554,31 @@ public class MainActivity extends Activity {
     }
 
     // 显示发送弹窗
-    public void showSendDialog(View view) {
-        bottom_in_anim.setAnimationListener(new MyAnimationListener(send_rl));
-        send_rl.startAnimation(bottom_in_anim);
-        send_rl.setVisibility(View.VISIBLE);
-        about_bg.setClickable(false);
-        fade_in.setAnimationListener(new MyAnimationListener(about_bg));
-        about_bg.startAnimation(fade_in);
-        about_bg.setVisibility(View.VISIBLE);
-        CommonUtils.stack.push(ConstantData.SEND_DIALOG);
-    }
+//    public void showSendDialog(View view) {
+//        bottom_in_anim.setAnimationListener(new MyAnimationListener(send_rl));
+//        send_rl.startAnimation(bottom_in_anim);
+//        send_rl.setVisibility(View.VISIBLE);
+//        about_bg.setClickable(false);
+//        fade_in.setAnimationListener(new MyAnimationListener(about_bg));
+//        about_bg.startAnimation(fade_in);
+//        about_bg.setVisibility(View.VISIBLE);
+//        CommonUtils.stack.push(ConstantData.SEND_DIALOG);
+//    }
 
-    // 当点击完右上角的删除按钮后 弹出该弹窗
+    // 当点击完右上角的删除按钮后 隐藏传送按钮
     // AnimationListener为动画的监听器
-    public void hideSendDialog(View view) {
-        //背景不可点击
-        about_bg.setClickable(false);
-        bottom_out_anim.setAnimationListener(new MyAnimationListener(send_rl));
-        send_rl.startAnimation(bottom_out_anim);
-        send_rl.setVisibility(View.GONE);
-
-        fade_out.setAnimationListener(new MyAnimationListener(about_bg));
-        about_bg.startAnimation(fade_out);
-        about_bg.setVisibility(View.GONE);
-        CommonUtils.stack.pop();
-    }
+//    public void hideSendDialog(View view) {
+//        //背景不可点击
+//        about_bg.setClickable(false);
+//        bottom_out_anim.setAnimationListener(new MyAnimationListener(send_rl));
+//        send_rl.startAnimation(bottom_out_anim);
+//        send_rl.setVisibility(View.GONE);
+//
+//        fade_out.setAnimationListener(new MyAnimationListener(about_bg));
+//        about_bg.startAnimation(fade_out);
+//        about_bg.setVisibility(View.GONE);
+//        CommonUtils.stack.pop();
+//    }
 
     // 点击删除按钮
     public void doDelete(View view) {
@@ -621,7 +633,7 @@ public class MainActivity extends Activity {
         back_btn.setVisibility(View.VISIBLE);
         delete_image.setVisibility(View.VISIBLE);
 
-        send_image.setVisibility(View.INVISIBLE);
+//        send_image.setVisibility(View.INVISIBLE);
         info_image.setVisibility(View.INVISIBLE);
         title_text.setVisibility(View.INVISIBLE);
         add_image.setVisibility(View.INVISIBLE);
@@ -637,7 +649,7 @@ public class MainActivity extends Activity {
         title_text.setVisibility(View.INVISIBLE);
         add_image.setVisibility(View.INVISIBLE);
         delete_image.setVisibility(View.INVISIBLE);
-        send_image.setVisibility(View.INVISIBLE);
+//        send_image.setVisibility(View.INVISIBLE);
     }
 
     // 点击右上角完成之后
@@ -658,7 +670,9 @@ public class MainActivity extends Activity {
         }
     }
 
+    // 左上角登出后弹出框 此时点击背景 触发事件 回到主页面
     public void doClickBg(View view) {
+        Log.d("MainActivity.java","doClickBg");
         CommonUtils.doFinish(this);
     }
 

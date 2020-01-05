@@ -30,9 +30,9 @@ public class CommonUtils {
 			case ConstantData.INFOR_DIALOG:
 				mainActivity.hideInfoDialog(null);
 				break;
-			case ConstantData.SEND_DIALOG:
-				mainActivity.hideSendDialog(null);
-				break;
+//			case ConstantData.SEND_DIALOG:
+//				mainActivity.hideSendDialog(null);
+//				break;
 			case ConstantData.EDIT_STATE:
 				mainActivity.backToList(null);
 				break;
