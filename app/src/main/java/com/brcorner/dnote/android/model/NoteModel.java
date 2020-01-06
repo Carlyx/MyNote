@@ -6,12 +6,24 @@ public class NoteModel {
 	private String noteContent;
 	private boolean isFav;
 	private boolean isUp;
+	private boolean isDelete;
+	private int isCompletely;
 
 	public boolean isFav() {
 		return isFav;
 	}
+	public boolean isDelete(){
+		return isDelete;
+	}
+	public int isCompletely(){return isCompletely;}
 	public void setFav(boolean isFav) {
 		this.isFav = isFav;
+	}
+	public void setDelete(boolean isDelete){
+		this.isDelete = isDelete;
+	}
+	public void setIsCompletely(int isCompletely){
+		this.isCompletely += 1;
 	}
 	public int getNoteId() {
 		return noteId;

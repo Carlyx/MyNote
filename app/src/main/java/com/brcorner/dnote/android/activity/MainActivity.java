@@ -372,6 +372,7 @@ public class MainActivity extends Activity {
         //左上角的登录部分
         info_image.setVisibility(View.VISIBLE);
         //最上面标题栏中央的字
+        title_text.setText("自建便签");
         title_text.setVisibility(View.VISIBLE);
         //右上角写内容的按钮
         add_image.setVisibility(View.VISIBLE);
@@ -508,7 +509,7 @@ public class MainActivity extends Activity {
         left_in.setAnimationListener(new MyAnimationListener(list_fl));
         list_fl.startAnimation(left_in);
         list_fl.setVisibility(View.VISIBLE);
-        CommonUtils.stack.pop();
+//        CommonUtils.stack.pop();
         dataList.clear();
 
         List<NoteModel> newList = dNoteDB.loadNotes();
@@ -585,7 +586,8 @@ public class MainActivity extends Activity {
         Log.d("点击","删除");
         // 点击下面弹出的删除按钮后应该隐藏该弹窗
         this.hideDeleteDialog(null);
-        dNoteDB.deleteNote(noteModel.getNoteId());
+//        dNoteDB.deleteNote(noteModel.getNoteId());
+        dNoteDB.recycle(noteModel.getNoteId());
         backToList(null);
 //        delete_image.setImageResource(R.anim.del_btn_anim);
 //        animationDrawable = (AnimationDrawable) delete_image.getDrawable();
@@ -693,6 +695,61 @@ public class MainActivity extends Activity {
         return true;
     }
 
+    // 显示回收站
+    public void show_recycle(View view){
+        Log.d("显示","回收站");
+        hideInfoDialog(view);
+        Log.d("1","1");
+        listPage1();
+        Log.d("2","2");
+        edittext_note.setVisibility(View.GONE);
+        Log.d("3","3");
+//        right_out.setAnimationListener(new MyAnimationListener(edit_fl));
+//        edit_fl.startAnimation(right_out);
+        edit_fl.setVisibility(View.INVISIBLE);
+        Log.d("4","4");
+//        left_in.setAnimationListener(new MyAnimationListener(list_fl));
+//        list_fl.startAnimation(left_in);
+        list_fl.setVisibility(View.VISIBLE);
+//        CommonUtils.stack.pop();
+        Log.d("5","5");
+        dataList.clear();
+
+        List<NoteModel> newList = dNoteDB.loadRecycle();
+        dataList.addAll(newList);
+        if (noteAdapter != null) {
+            noteAdapter.notifyDataSetChanged();
+        }
+
+        if (dataList != null && dataList.size() > 0) {
+            empty_note_view.setVisibility(View.INVISIBLE);
+        } else {
+            empty_note_view.setVisibility(View.VISIBLE);
+        }
+    }
+    public void listPage1() {
+        //左上角的登录部分
+        info_image.setVisibility(View.INVISIBLE);
+        //最上面标题栏中央的字
+        title_text.setText("回收站");
+        title_text.setVisibility(View.VISIBLE);
+        //右上角写内容的按钮
+        add_image.setVisibility(View.INVISIBLE);
+
+//        info_image.setVisibility(View.INVISIBLE);
+//        title_text.setVisibility(View.INVISIBLE);
+//        add_image.setVisibility(View.INVISIBLE);
+
+        back_btn.setVisibility(View.VISIBLE);
+        complete_text.setVisibility(View.INVISIBLE);
+        delete_image.setVisibility(View.INVISIBLE);
+//        send_image.setVisibility(View.INVISIBLE);
+//        back_btn.setVisibility(View.VISIBLE);
+//        complete_text.setVisibility(View.VISIBLE);
+//        delete_image.setVisibility(View.VISIBLE);
+//        send_image.setVisibility(View.VISIBLE);
+
+    }
     //    public boolean onKeyDown(int keyCode, KeyEvent event) {
 //        Log.d("sad","adsad");
 //        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {

@@ -12,12 +12,16 @@ public class DNoteOpenHelper extends SQLiteOpenHelper{
 	public static final String NOTE_TIME = "note_time";
 	public static final String NOTE_CONTENT = "note_content";
 	public static final String NOTE_ISFAV = "note_isfav";
+	public static final String NOTE_ISDELETE = "note_isdelete";
+	public static final String NOTE_ISCOMPLETELY = "note_iscompletely";
 	
 	public static final String CREATE_NOTE = "create table " + TAB_NAME + " ("
 			+ "id integer primary key autoincrement,"
 			+ NOTE_TIME + " text,"
 			+ NOTE_CONTENT + " text,"
-			+ NOTE_ISFAV + " integer)";
+			+ NOTE_ISFAV + " integer,"
+			+ NOTE_ISDELETE + " integer,"
+			+ NOTE_ISCOMPLETELY + " integer)";
 	
 	public DNoteOpenHelper(Context context, String name, CursorFactory factory,
 			int version) {

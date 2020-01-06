@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.ListView;
 
 import com.brcorner.dnote.android.model.NoteModel;
 
@@ -15,7 +16,7 @@ import com.brcorner.dnote.android.model.NoteModel;
 public class DNoteDB {
 
 	//数据库的名字
-	public static final String DB_NAME = "dnote";
+	public static final String DB_NAME = "dnote2";
 
 	public static final int VERSION = 1;
 
@@ -58,7 +59,14 @@ public class DNoteDB {
 			{
 				values.put(DNoteOpenHelper.NOTE_ISFAV, 0);
 			}
-
+			if(noteModel.isDelete())
+			{
+				values.put(DNoteOpenHelper.NOTE_ISDELETE,1);
+			}
+			else
+			{
+				values.put(DNoteOpenHelper.NOTE_ISDELETE,0);
+			}
 			return (int) db.insert(DNoteOpenHelper.TAB_NAME, null, values);
 		}
 		return 0;
@@ -91,6 +99,30 @@ public class DNoteDB {
 	public void deleteNote(int noteId)
 	{
 		db.execSQL("delete from " + DNoteOpenHelper.TAB_NAME + " where id = ?", new Object[]{String.valueOf(noteId)});
+	}
+
+	public void recycle(int noteId)
+	{
+		Cursor cursor = null;
+		Log.d("5","5");
+		cursor = db.rawQuery("select * from Dnote", null);
+		Log.d("6","6");
+		if (cursor.moveToFirst()){
+			do{
+				int p = cursor.getInt(cursor.getColumnIndex("id"));
+				if(p == noteId){
+					int a = cursor.getInt(cursor.getColumnIndex(DNoteOpenHelper.NOTE_ISDELETE));
+					if(a == 1){
+						deleteNote(noteId);
+					}
+					else
+					{
+						db.execSQL("update " + DNoteOpenHelper.TAB_NAME + " set " + DNoteOpenHelper.NOTE_ISDELETE + " = 1 where id = ?", new Object[]{String.valueOf(noteId)});
+					}
+				}
+			}while(cursor.moveToNext());
+		}
+
 	}
 
 	// 从数据库中搜索相应的文本
@@ -129,6 +161,42 @@ public class DNoteDB {
 		}
 		return list;
 	}
+	// 加载回收站里面的数据
+	public List<NoteModel> loadRecycle()
+	{
+		Log.d("DnoteDB.java","加载all数据");
+		List<NoteModel> list = new ArrayList<NoteModel>();
+//		Cursor cursor = db.rawQuery("select * from Dnote order by note_rankId",null);
+		Cursor cursor = db.query(DNoteOpenHelper.TAB_NAME, null, null, null, null, null, null);
+		if(cursor.moveToFirst())
+		{
+			do{
+				NoteModel noteModel = new NoteModel();
+				noteModel.setNoteId(cursor.getInt(cursor.getColumnIndex("id")));
+				noteModel.setNoteContent(cursor.getString(cursor.getColumnIndex(DNoteOpenHelper.NOTE_CONTENT)));
+				noteModel.setNoteTime(cursor.getString(cursor.getColumnIndex(DNoteOpenHelper.NOTE_TIME)));
+				int b =  cursor.getInt(cursor.getColumnIndex(DNoteOpenHelper.NOTE_ISFAV));
+				if(b == 1)
+				{
+					noteModel.setFav(true);
+				}
+				else
+				{
+					noteModel.setFav(false);
+				}
+				int c = cursor.getInt(cursor.getColumnIndex(DNoteOpenHelper.NOTE_ISDELETE));
+				if(c == 0){
+					noteModel.setDelete(true);
+				}
+				else
+				{
+					noteModel.setDelete(false);
+					list.add(noteModel);
+				}
+			}while(cursor.moveToNext());
+		}
+		return list;
+	}
 	// 加载数据库里面的all notes
 	public List<NoteModel> loadNotes()
 	{
@@ -152,7 +220,15 @@ public class DNoteDB {
 				{
 					noteModel.setFav(false);
 				}
-				list.add(noteModel);
+				int c = cursor.getInt(cursor.getColumnIndex(DNoteOpenHelper.NOTE_ISDELETE));
+				if(c == 1){
+					noteModel.setDelete(true);
+				}
+				else
+				{
+					noteModel.setDelete(false);
+					list.add(noteModel);
+				}
 			}while(cursor.moveToNext());
 		}
 		return list;
