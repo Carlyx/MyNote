@@ -4,6 +4,12 @@ android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
 
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
+
+    }
+
     defaultConfig {
         applicationId "com.brcorner.dnote.android"
         minSdkVersion 11

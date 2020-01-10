@@ -51,8 +51,8 @@ import com.brcorner.dnote.android.listener.MyAnimationListener;
 import com.brcorner.dnote.android.listener.MyHideAnimationListener;
 import com.brcorner.dnote.android.model.NoteModel;
 import com.brcorner.dnote.android.utils.CommonUtils;
-//import com.brcorner.drag_sort_listview_lib.DragSortController;
-//import com.brcorner.drag_sort_listview_lib.DragSortListView;
+import com.brcorner.drag_sort_listview_lib.DragSortController;
+import com.brcorner.drag_sort_listview_lib.DragSortListView;
 
 
 public class MainActivity extends Activity {
@@ -93,8 +93,8 @@ public class MainActivity extends Activity {
     private RelativeLayout delete_rl;
 
     // 拖动的布局
-//    private DragSortListView dragSortListView;
-//    private DragSortController mController;
+    private DragSortListView dragSortListView;
+    private DragSortController mController;
     // 自建的非拖动布局
     private ListView my_list_view;
 
@@ -411,11 +411,17 @@ public class MainActivity extends Activity {
     // 左上角登录弹框后点×后退出弹框
     public void hideInfoDialog(View view) {
         Log.d("退出","info");
-        bottom_out_anim.setAnimationListener(new MyHideAnimationListener(new View[]{about_fl}));
-        about_fl.startAnimation(bottom_out_anim);
+//        bottom_out_anim.setAnimationListener(new MyHideAnimationListener(new View[]{about_fl}));
+//        about_fl.startAnimation(bottom_out_anim);
+        about_fl.clearAnimation();
+        about_fl.setVisibility(View.GONE);
         about_bg.setClickable(false);
-        fade_out.setAnimationListener(new MyHideAnimationListener(new View[]{viewstub_about, about_bg}));
-        about_bg.startAnimation(fade_out);
+//        fade_out.setAnimationListener(new MyHideAnimationListener(new View[]{viewstub_about, about_bg}));
+//        about_bg.startAnimation(fade_out);
+        viewstub_about.clearAnimation();
+        viewstub_about.setVisibility(View.GONE);
+        about_bg.clearAnimation();
+        about_bg.setVisibility(View.GONE);
 //        layout_share.setVisibility(View.GONE);
         layout_info.setVisibility(View.VISIBLE);
         CommonUtils.stack.pop();
@@ -447,30 +453,31 @@ public class MainActivity extends Activity {
 //        list_fl.startAnimation(left_out);
         list_fl.setVisibility(View.INVISIBLE);
 
-        edit_fl.setScaleX(0.8f);
-        edit_fl.setScaleY(0.8f);
+//        edit_fl.setScaleX(0.6f);
+//        edit_fl.setScaleY(0.6f);
         scale.setAnimationListener(new MyAnimationListener(edit_fl));
-        right_in.setAnimationListener(new AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            // 当进入编辑页面的动画结束时  缩放编辑页面框的大小
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                edit_fl.startAnimation(scale);
-                edit_fl.setScaleX(1.0f);
-                edit_fl.setScaleY(1.0f);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
+        right_in.setAnimationListener(new MyAnimationListener(edit_fl));
+//        right_in.setAnimationListener(new AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//
+//            }
+//
+//            // 当进入编辑页面的动画结束时  缩放编辑页面框的大小
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//                edit_fl.startAnimation(scale);
+//                edit_fl.setScaleX(1.0f);
+//                edit_fl.setScaleY(1.0f);
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//        });
         edit_fl.startAnimation(right_in);
-
+//
 
         edit_fl.setVisibility(View.VISIBLE);
         CommonUtils.stack.push(ConstantData.EDIT_STATE);
@@ -506,8 +513,8 @@ public class MainActivity extends Activity {
         edit_fl.startAnimation(right_out);
         edit_fl.setVisibility(View.INVISIBLE);
 
-        left_in.setAnimationListener(new MyAnimationListener(list_fl));
-        list_fl.startAnimation(left_in);
+//        left_in.setAnimationListener(new MyAnimationListener(list_fl));
+//        list_fl.startAnimation(left_in);
         list_fl.setVisibility(View.VISIBLE);
 //        CommonUtils.stack.pop();
         dataList.clear();
@@ -532,8 +539,8 @@ public class MainActivity extends Activity {
 //        delete_rl.startAnimation(bottom_in_anim);
         delete_rl.setVisibility(View.VISIBLE);
 
-        fade_in.setAnimationListener(new MyAnimationListener(about_bg));
-        about_bg.startAnimation(fade_in);
+//        fade_in.setAnimationListener(new MyAnimationListener(about_bg));
+//        about_bg.startAnimation(fade_in);
         about_bg.setVisibility(View.VISIBLE);
         about_bg.setClickable(true);
         CommonUtils.stack.push(ConstantData.DELETE_DIALOG);
@@ -543,13 +550,13 @@ public class MainActivity extends Activity {
     public void hideDeleteDialog(View view) {
         Log.d("MainActivity.java","hideDeleteDialog");
         about_bg.setClickable(false);
-        bottom_out_anim
-                .setAnimationListener(new MyAnimationListener(delete_rl));
-        delete_rl.startAnimation(bottom_out_anim);
+//        bottom_out_anim
+//                .setAnimationListener(new MyAnimationListener(delete_rl));
+//        delete_rl.startAnimation(bottom_out_anim);
         delete_rl.setVisibility(View.GONE);
 
-        fade_out.setAnimationListener(new MyAnimationListener(about_bg));
-        about_bg.startAnimation(fade_out);
+//        fade_out.setAnimationListener(new MyAnimationListener(about_bg));
+//        about_bg.startAnimation(fade_out);
         about_bg.setVisibility(View.GONE);
         CommonUtils.stack.pop();
     }
@@ -678,22 +685,22 @@ public class MainActivity extends Activity {
         CommonUtils.doFinish(this);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.left_top, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.recycle_bin:
-                break;
-            case R.id.login_out:
-                break;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.left_top, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()){
+//            case R.id.recycle_bin:
+//                break;
+//            case R.id.login_out:
+//                break;
+//        }
+//        return true;
+//    }
 
     // 显示回收站
     public void show_recycle(View view){
@@ -750,6 +757,43 @@ public class MainActivity extends Activity {
 //        send_image.setVisibility(View.VISIBLE);
 
     }
+
+    public void sort_clock(View view){
+        hideInfoDialog(view);
+        Log.d("762","sort_clock");
+        dataList.clear();
+
+        List<NoteModel> newList = dNoteDB.loadNotes1();
+        dataList.addAll(newList);
+        if (noteAdapter != null) {
+            noteAdapter.notifyDataSetChanged();
+        }
+
+        if (dataList != null && dataList.size() > 0) {
+            empty_note_view.setVisibility(View.INVISIBLE);
+        } else {
+            empty_note_view.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void sort_unclock(View view){
+        hideInfoDialog(view);
+        Log.d("762","sort_clock");
+        dataList.clear();
+
+        List<NoteModel> newList = dNoteDB.loadNotes2();
+        dataList.addAll(newList);
+        if (noteAdapter != null) {
+            noteAdapter.notifyDataSetChanged();
+        }
+
+        if (dataList != null && dataList.size() > 0) {
+            empty_note_view.setVisibility(View.INVISIBLE);
+        } else {
+            empty_note_view.setVisibility(View.VISIBLE);
+        }
+    }
+
     //    public boolean onKeyDown(int keyCode, KeyEvent event) {
 //        Log.d("sad","adsad");
 //        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {

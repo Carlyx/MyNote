@@ -156,7 +156,11 @@ public class DNoteDB {
 				{
 					noteModel.setFav(false);
 				}
-				list.add(noteModel);
+				int c = cursor.getInt(cursor.getColumnIndex(DNoteOpenHelper.NOTE_ISDELETE));
+				if(c == 0)
+				{
+					list.add(noteModel);
+				}
 			}while(cursor.moveToNext());
 		}
 		return list;
@@ -204,6 +208,78 @@ public class DNoteDB {
 		List<NoteModel> list = new ArrayList<NoteModel>();
 //		Cursor cursor = db.rawQuery("select * from Dnote order by note_rankId",null);
 		Cursor cursor = db.query(DNoteOpenHelper.TAB_NAME, null, null, null, null, null, null);
+		if(cursor.moveToFirst())
+		{
+			do{
+				NoteModel noteModel = new NoteModel();
+				noteModel.setNoteId(cursor.getInt(cursor.getColumnIndex("id")));
+				noteModel.setNoteContent(cursor.getString(cursor.getColumnIndex(DNoteOpenHelper.NOTE_CONTENT)));
+				noteModel.setNoteTime(cursor.getString(cursor.getColumnIndex(DNoteOpenHelper.NOTE_TIME)));
+				int b =  cursor.getInt(cursor.getColumnIndex(DNoteOpenHelper.NOTE_ISFAV));
+				if(b == 1)
+				{
+					noteModel.setFav(true);
+				}
+				else
+				{
+					noteModel.setFav(false);
+				}
+				int c = cursor.getInt(cursor.getColumnIndex(DNoteOpenHelper.NOTE_ISDELETE));
+				if(c == 1){
+					noteModel.setDelete(true);
+				}
+				else
+				{
+					noteModel.setDelete(false);
+					list.add(noteModel);
+				}
+			}while(cursor.moveToNext());
+		}
+		return list;
+	}
+
+	public List<NoteModel> loadNotes1(){
+		Cursor cursor = null;
+		List<NoteModel> list = new ArrayList<NoteModel>();
+		Log.d("5","5");
+		cursor = db.rawQuery("select * from Dnote order by " + DNoteOpenHelper.NOTE_TIME, null);
+		Log.d("6","6");
+		if(cursor.moveToFirst())
+		{
+			do{
+				NoteModel noteModel = new NoteModel();
+				noteModel.setNoteId(cursor.getInt(cursor.getColumnIndex("id")));
+				noteModel.setNoteContent(cursor.getString(cursor.getColumnIndex(DNoteOpenHelper.NOTE_CONTENT)));
+				noteModel.setNoteTime(cursor.getString(cursor.getColumnIndex(DNoteOpenHelper.NOTE_TIME)));
+				int b =  cursor.getInt(cursor.getColumnIndex(DNoteOpenHelper.NOTE_ISFAV));
+				if(b == 1)
+				{
+					noteModel.setFav(true);
+				}
+				else
+				{
+					noteModel.setFav(false);
+				}
+				int c = cursor.getInt(cursor.getColumnIndex(DNoteOpenHelper.NOTE_ISDELETE));
+				if(c == 1){
+					noteModel.setDelete(true);
+				}
+				else
+				{
+					noteModel.setDelete(false);
+					list.add(noteModel);
+				}
+			}while(cursor.moveToNext());
+		}
+		return list;
+	}
+
+	public List<NoteModel> loadNotes2(){
+		Cursor cursor = null;
+		List<NoteModel> list = new ArrayList<NoteModel>();
+		Log.d("5","5");
+		cursor = db.rawQuery("select * from Dnote order by " + DNoteOpenHelper.NOTE_TIME +" desc", null);
+		Log.d("6","6");
 		if(cursor.moveToFirst())
 		{
 			do{

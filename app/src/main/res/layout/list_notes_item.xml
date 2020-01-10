@@ -45,7 +45,7 @@
                     android:id="@+id/rl_bg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/list_item_back"
+                    android:background="@drawable/list_folder"
                     android:orientation="vertical"
                     android:paddingTop="@dimen/list_item_content_padding_top" >
 
@@ -60,14 +60,14 @@
                             android:paddingLeft="@dimen/list_item_content_padding_left"
                             android:paddingRight="@dimen/list_item_content_padding_right" >
 
-                            <TextView
-                                android:id="@+id/ago_text"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:singleLine="true"
-                                android:textColor="@color/time_color"
-                                android:textSize="@dimen/time_text_size" />
+<!--                            <TextView-->
+<!--                                android:id="@+id/ago_text"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:ellipsize="end"-->
+<!--                                android:singleLine="true"-->
+<!--                                android:textColor="@color/time_color"-->
+<!--                                android:textSize="@dimen/time_text_size" />-->
 
                             <TextView
                                 android:id="@+id/time_text"

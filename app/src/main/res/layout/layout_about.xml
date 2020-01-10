@@ -16,7 +16,7 @@
     <FrameLayout
         android:id="@+id/about_fl"
         android:layout_width="fill_parent"
-        android:layout_height="280.0dip"
+        android:layout_height="340.0dip"
         android:layout_gravity="center"
         android:visibility="invisible"
          >
@@ -72,16 +72,42 @@
                     android:onClick="show_recycle"
                     android:textColor="@color/update_textcolor" />
 
-                <TextView
-                    android:id="@+id/tv_version"
+                <Button
+                    android:id="@+id/clock"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/update"
-                    android:layout_marginTop="55.0dip"
                     android:layout_centerHorizontal="true"
-                    android:textColor="#ff686868"
-                    android:text="pangyouxin2020@ia.ac.cn"
-                    android:textSize="9.0dip" />
+                    android:background="@drawable/share_button_selector"
+                    android:enabled="true"
+                    android:gravity="center"
+                    android:text="按时间正序"
+                    android:onClick="sort_clock"
+                    android:textColor="@color/update_textcolor" />
+
+                <Button
+                    android:id="@+id/unclock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/clock"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/share_button_selector"
+                    android:enabled="true"
+                    android:gravity="center"
+                    android:text="按时间倒序"
+                    android:onClick="sort_unclock"
+                    android:textColor="@color/update_textcolor" />
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_version"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@id/update"-->
+<!--                    android:layout_marginTop="55.0dip"-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:textColor="#ff686868"-->
+<!--                    android:text="pangyouxin2020@ia.ac.cn"-->
+<!--                    android:textSize="9.0dip" />-->
 
                 <!--<TextView-->
                     <!--android:id="@+id/tv_email"-->
